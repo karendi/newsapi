@@ -9,7 +9,7 @@ export function getPostsFailure(error) {
   return { type: types.FAILURE_TO_GET_POSTS, error };
 }
 
-export default function getAllNewsPosts(source, sortBy) {
+export function getAllNewsPosts(source, sortBy) {
   return function (dispatch) {
     return GetNewsPost.getAllNewsPosts(source, sortBy)
         .then((posts) => {
