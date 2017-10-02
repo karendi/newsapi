@@ -1,0 +1,3 @@
+export const GET_ALL_POSTS_SUCCESS = 'GET_ALL_POSTS';
+export const FAILURE_TO_GET_POSTS = 'FAILURE_TO_GET_POSTS';
+export const GET_ONE_POST = 'GET_ONE_POST';
