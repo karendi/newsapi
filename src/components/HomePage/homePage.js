@@ -6,6 +6,12 @@ import Header from '../common/header';
 import * as newsPostsActions from '../../actions/newsPostsActions';
 
 class HomePage extends React.Component {
+  componentDidMount() {
+    if (this.props.posts.length === 0) {
+      this.props.getPosts('bbc-news', 'top');
+    }
+  }
+
   render() {
     return (
       <div>

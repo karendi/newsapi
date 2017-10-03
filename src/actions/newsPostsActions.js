@@ -1,5 +1,5 @@
 import * as types from './actionTypes';
-import GetNewsPost from '../api/getNewsPost';
+import GetNewsPost from '../api/postsApi';
 
 export function getPostsSuccess(posts) {
   return { type: types.GET_ALL_POSTS_SUCCESS, posts };
