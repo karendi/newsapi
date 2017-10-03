@@ -2,39 +2,52 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import DisplayCard from './displayCard';
 import Header from '../common/header';
-import * as newsPostsActions from '../../actions/newsPostsActions';
+import * as sources from '../../actions/sourcesActions';
 
 class HomePage extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      newsSources: [],
+    };
+  }
   componentDidMount() {
-    if (this.props.posts.length === 0) {
-      this.props.getPosts('bbc-news', 'top');
+    if (this.props.sources.length === 0) {
+      this.props.getSources();
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    const retrievedSources = nextProps.sources.sources;
+    this.setState({ newsSources: retrievedSources });
+  }
   render() {
     return (
       <div>
         <Header />
-        <h1> Home Page</h1>
+        {this.state.newsSources.map((name, index) =>
+          <DisplayCard key={index} sourcesList={name} />,
+        )}
       </div>
     );
   }
 }
 
 HomePage.propTypes = {
-  posts: PropTypes.arrayOf(PropTypes.string).isRequired,
-  getPosts: PropTypes.func,
+  sources: PropTypes.arrayOf(PropTypes.string).isRequired,
+  getSources: PropTypes.func,
 };
 
 function mapStateToProps(state) {
-  return { posts: state.posts };
+  return { sources: state.sources };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    getPosts: (source, sortBy) => {
-      dispatch(newsPostsActions.getAllNewsPosts(source, sortBy));
+    getSources: () => {
+      dispatch(sources.getAllSources());
     },
   };
 }
