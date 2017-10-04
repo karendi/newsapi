@@ -23,6 +23,7 @@ class HomePage extends React.Component {
     const retrievedSources = nextProps.sources.sources;
     this.setState({ newsSources: retrievedSources });
   }
+
   render() {
     return (
       <div>

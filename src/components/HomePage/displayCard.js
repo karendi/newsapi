@@ -1,7 +1,6 @@
 /* eslint-disable react/prefer-stateless-function */
 import React from 'react';
-import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
+import { Card, CardHeader, CardText } from 'material-ui/Card';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import PropTypes from 'prop-types';
 
@@ -12,14 +11,10 @@ class DisplayCard extends React.Component {
         <MuiThemeProvider>
           <Card>
             <CardHeader
-              title={this.props.sourcesList.name}
+              title={<a href="">{this.props.sourcesList.name}</a>}
               actAsExpander
               showExpandableButton
             />
-            <CardActions>
-              <FlatButton label="Action 1" />
-              <FlatButton label="Action 2" />
-            </CardActions>
             <CardText expandable>
               {this.props.sourcesList.description}
             </CardText>
@@ -32,7 +27,7 @@ class DisplayCard extends React.Component {
 }
 
 DisplayCard.propTypes = {
-  sourcesList: PropTypes.arrayOf(PropTypes.string),
+  sourcesList: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 
