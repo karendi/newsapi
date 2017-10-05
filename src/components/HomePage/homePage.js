@@ -15,11 +15,11 @@ class HomePage extends React.Component {
       fetching: false,
     };
 
-    this.fetchSources = this.fetchSources.bind(this);
+    this.fetchNewsSources = this.fetchNewsSources.bind(this);
   }
   componentDidMount() {
     if (this.props.sources.length === 0) {
-      this.fetchSources();
+      this.fetchNewsSources();
       this.props.getSources();
     }
   }
@@ -30,7 +30,7 @@ class HomePage extends React.Component {
     this.setState({ newsSources: retrievedSources });
   }
 
-  fetchSources() {
+  fetchNewsSources() {
     this.setState({ fetching: true });
   }
 
@@ -44,8 +44,8 @@ class HomePage extends React.Component {
     }
     return (
       <div>
-        { progressBar }
         <Header />
+        { progressBar }
         {this.state.newsSources.map((name, index) =>
           <DisplayCard key={index} sourcesList={name} />,
         )}
