@@ -1,4 +1,4 @@
-/* eslint-disable react/prefer-stateless-function */
+/* eslint-disable react/prefer-stateless-function,jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
 import { connect } from 'react-redux';
@@ -11,36 +11,60 @@ class DisplayCard extends React.Component {
     super();
     this.state = {
       fetchingNewsPosts: false,
+      sortByOption: [],
+      newsSource: '',
     };
 
     this.getSourceNewsPosts = this.getSourceNewsPosts.bind(this);
+    this.getSortByFilter = this.getSortByFilter.bind(this);
   }
 
-  getSourceNewsPosts(source, sortBy) {
+  componentDidUpdate() {
+    const source = this.state.sortByOption;
+    const sortBy = this.state.newsSource;
+    if (source && sortBy) {
+
+    } else if (source) {
+
+    }
+  }
+
+  getSourceNewsPosts(source) {
+    this.setState({ sortByOption: [] });
+    this.setState({ newsSource: source });
     this.setState({ fetchingNewsPosts: true });
   }
+
+  getSortByFilter(filter) {
+    this.setState({ sortByOption: filter });
+    return this.state.sortByOption;
+  }
+
   render() {
     return (
       <div>
         <MuiThemeProvider>
           <Card>
             <CardHeader
-// eslint-disable-next-line jsx-a11y/no-static-element-interactions
               title={<h4
                 tabIndex={-42}
-                onClick={() => this.getSourceNewsPosts()}
+                onClick={() => this.getSourceNewsPosts(this.props.sourcesList.name)}
               >{this.props.sourcesList.name}</h4>}
               actAsExpander
               showExpandableButton
             />
-            {this.props.sourcesList.sortBysAvailable.map((name, index) =>
-              <CardActions key={index}>
-                <i className="material-icons">swap_vert</i>
-                <h6>{name}</h6>
-              </CardActions>,
-            )}
             <CardText expandable>
               {this.props.sourcesList.description}
+              {this.props.sourcesList.sortBysAvailable.map((name, index) =>
+                <CardActions key={index}>
+                  <i className="material-icons">swap_vert</i>
+                  <h6
+                    tabIndex={-42}
+                    onClick={() =>
+                          this.getSortByFilter(name)}
+                  >{name}</h6>
+                </CardActions>,
+                )}
             </CardText>
           </Card>
         </MuiThemeProvider>
@@ -52,7 +76,8 @@ class DisplayCard extends React.Component {
 
 DisplayCard.propTypes = {
   sourcesList: PropTypes.arrayOf(PropTypes.string).isRequired,
-  getNewsPosts: PropTypes.func,
+  getNewsPostsWithFilters: PropTypes.func,
+  getNewsPostsWithoutFilters: PropTypes.func,
 };
 
 function mapToStateToProps(state) {
@@ -61,8 +86,11 @@ function mapToStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getNewsPosts: () => {
-      dispatch(posts.getAllNewsPosts());
+    getNewsPostsWithFilters: (source, sortBy) => {
+      dispatch(posts.getAllNewsPostsWithFilter(source, sortBy));
+    },
+    getNewsPostsWithoutFilters: (source) => {
+      dispatch(posts.getAllNewsPostsWithoutFilter(source));
     },
   };
 }
