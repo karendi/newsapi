@@ -17,26 +17,33 @@ class DisplayCard extends React.Component {
 
     this.getSourceNewsPosts = this.getSourceNewsPosts.bind(this);
     this.getSortByFilter = this.getSortByFilter.bind(this);
+    this.getPosts = this.getPosts.bind(this);
   }
 
-  componentDidUpdate() {
-    const source = this.state.sortByOption;
-    const sortBy = this.state.newsSource;
-    if (source && sortBy) {
 
-    } else if (source) {
-
+  getPosts() {
+    const source = this.state.newsSource;
+    const sortBy = this.state.sortByOption;
+    if (source && sortBy.length !== 0) {
+      // take time before execution to check if user will choose a filter
+      this.props.getNewsPostsWithFilters(source, sortBy);
+    } else if (source && sortBy.length === 0) {
+      setTimeout(() => { this.props.getNewsPostsWithoutFilters(source); }, 5000);
     }
   }
 
   getSourceNewsPosts(source) {
-    this.setState({ sortByOption: [] });
-    this.setState({ newsSource: source });
+    this.setState({ newsSource: source }, () => {
+      this.getPosts();
+    });
     this.setState({ fetchingNewsPosts: true });
   }
 
+
   getSortByFilter(filter) {
-    this.setState({ sortByOption: filter });
+    this.setState({ sortByOption: filter }, () => {
+      this.getPosts();
+    });
     return this.state.sortByOption;
   }
 
@@ -48,7 +55,7 @@ class DisplayCard extends React.Component {
             <CardHeader
               title={<h4
                 tabIndex={-42}
-                onClick={() => this.getSourceNewsPosts(this.props.sourcesList.name)}
+                onClick={() => this.getSourceNewsPosts(this.props.sourcesList.id)}
               >{this.props.sourcesList.name}</h4>}
               actAsExpander
               showExpandableButton
