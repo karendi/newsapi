@@ -13,24 +13,13 @@ class DisplayCard extends React.Component {
       fetchingNewsPosts: false,
       sortByOption: [],
       newsSource: '',
+      newsPosts: [],
     };
 
     this.getSourceNewsPosts = this.getSourceNewsPosts.bind(this);
     this.getSortByFilter = this.getSortByFilter.bind(this);
-    this.getPosts = this.getPosts.bind(this);
   }
 
-
-  getPosts() {
-    const source = this.state.newsSource;
-    const sortBy = this.state.sortByOption;
-    if (source && sortBy.length !== 0) {
-      // take time before execution to check if user will choose a filter
-      this.props.getNewsPostsWithFilters(source, sortBy);
-    } else if (source && sortBy.length === 0) {
-      setTimeout(() => { this.props.getNewsPostsWithoutFilters(source); }, 5000);
-    }
-  }
 
   getSourceNewsPosts(source) {
     this.setState({ newsSource: source }, () => {
@@ -49,13 +38,13 @@ class DisplayCard extends React.Component {
 
   render() {
     return (
+
       <div>
         <MuiThemeProvider>
           <Card>
             <CardHeader
               title={<h4
                 tabIndex={-42}
-                onClick={() => this.getSourceNewsPosts(this.props.sourcesList.id)}
               >{this.props.sourcesList.name}</h4>}
               actAsExpander
               showExpandableButton
@@ -85,6 +74,7 @@ DisplayCard.propTypes = {
   sourcesList: PropTypes.arrayOf(PropTypes.string).isRequired,
   getNewsPostsWithFilters: PropTypes.func,
   getNewsPostsWithoutFilters: PropTypes.func,
+  posts: PropTypes.arrayOf(PropTypes.string),
 };
 
 function mapToStateToProps(state) {

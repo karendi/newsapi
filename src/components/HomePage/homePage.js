@@ -2,7 +2,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import DisplayCard from './displayCard';
+import DisplayTable from './displayTable';
 import Header from '../common/header';
 import ProgressIndicator from './showProgress';
 import * as sources from '../../actions/sourcesActions';
@@ -13,6 +13,9 @@ class HomePage extends React.Component {
     this.state = {
       newsSources: [],
       fetching: false,
+      tableHeaders: [
+        'Source', 'Description',
+      ],
     };
 
     this.fetchNewsSources = this.fetchNewsSources.bind(this);
@@ -46,9 +49,7 @@ class HomePage extends React.Component {
       <div>
         <Header />
         { progressBar }
-        {this.state.newsSources.map((name, index) =>
-          <DisplayCard key={index} sourcesList={name} />,
-        )}
+        <DisplayTable tableRows={this.state.newsSources} tableHeaders={this.state.tableHeaders} />,
       </div>
     );
   }
