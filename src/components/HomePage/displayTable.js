@@ -11,12 +11,28 @@ import {
     TableRowColumn,
 } from 'material-ui/Table';
 
-// eslint-disable-next-line react/prefer-stateless-function
 class DisplayTable extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      fetchingPosts: false };
+
+    this.selectNewsSource = this.selectNewsSource.bind(this);
+  }
+
+  selectNewsSource(row) {
+    this.setState({ fetchingPosts: true });
+    const newsSource = this.props.tableRows[row].id;
+    this.props.postsWithoutFilters(newsSource);
+  }
   render() {
     return (
       <MuiThemeProvider>
-        <Table>
+        <Table
+          selectable
+          selected
+          onCellClick={row => (this.selectNewsSource(row))}
+        >
           <TableHeader>
             <TableRow>
               {this.props.tableHeaders.map((header, index) =>
@@ -24,7 +40,7 @@ class DisplayTable extends React.Component {
                             )}
             </TableRow>
           </TableHeader>
-          <TableBody>
+          <TableBody displayRowCheckbox>
             {this.props.tableRows.map((source, index) =>
               <TableRow key={index}>
                 <TableRowColumn>{source.name}</TableRowColumn>
@@ -42,6 +58,7 @@ class DisplayTable extends React.Component {
 DisplayTable.propTypes = {
   tableHeaders: PropTypes.arrayOf(PropTypes.string),
   tableRows: PropTypes.arrayOf(PropTypes.string),
+  postsWithoutFilters: PropTypes.func,
 };
 
 export default DisplayTable;

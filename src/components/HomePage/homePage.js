@@ -6,6 +6,7 @@ import DisplayTable from './displayTable';
 import Header from '../common/header';
 import ProgressIndicator from './showProgress';
 import * as sources from '../../actions/sourcesActions';
+import * as posts from '../../actions/newsPostsActions';
 
 class HomePage extends React.Component {
   constructor() {
@@ -49,7 +50,12 @@ class HomePage extends React.Component {
       <div>
         <Header />
         { progressBar }
-        <DisplayTable tableRows={this.state.newsSources} tableHeaders={this.state.tableHeaders} />,
+        <DisplayTable
+          postsWithFilters={source => (this.props.getNewsPostsWithFilters(source))}
+          postsWithoutFilters={() => (this.props.getNewsPostsWithoutFilters('abc-news-au'))}
+          tableRows={this.state.newsSources}
+          tableHeaders={this.state.tableHeaders}
+        />,
       </div>
     );
   }
@@ -58,17 +64,26 @@ class HomePage extends React.Component {
 HomePage.propTypes = {
   sources: PropTypes.arrayOf(PropTypes.string).isRequired,
   getSources: PropTypes.func,
+  getNewsPostsWithFilters: PropTypes.func,
+  getNewsPostsWithoutFilters: PropTypes.func,
 };
 
 
 function mapStateToProps(state) {
-  return { sources: state.sources };
+  return { sources: state.sources,
+    posts: state.posts };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     getSources: () => {
       dispatch(sources.getAllSources());
+    },
+    getNewsPostsWithFilters: (source, sortBy) => {
+      dispatch(posts.getAllNewsPostsWithFilter(source, sortBy));
+    },
+    getNewsPostsWithoutFilters: (source) => {
+      dispatch(posts.getAllNewsPostsWithoutFilter(source));
     },
   };
 }
