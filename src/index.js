@@ -26,7 +26,7 @@ ReactDOM.render(
               <Route exact path="/" component={LoginPage} />
               <Route exact path="/homepage" component={HomePage} onEnter={requireAuth()} />
               <Route
-                path="/news-source/:id?"
+                path="/news-source/:id"
                 component={DisplayCard} onEnter={requireAuth()}
               />
             </Switch>
