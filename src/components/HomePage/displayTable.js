@@ -1,5 +1,6 @@
 /* eslint-disable react/prefer-stateless-function */
 import React from 'react';
+import { createBrowserHistory } from 'history';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import PropTypes from 'prop-types';
 import {
@@ -11,6 +12,8 @@ import {
     TableRowColumn,
 } from 'material-ui/Table';
 
+const history = createBrowserHistory({ forceRefresh: true });
+
 class DisplayTable extends React.Component {
   constructor() {
     super();
@@ -18,6 +21,16 @@ class DisplayTable extends React.Component {
       fetchingPosts: false };
 
     this.selectNewsSource = this.selectNewsSource.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+// eslint-disable-next-line react/prop-types
+    const data = nextProps.posts.articles;
+// eslint-disable-next-line react/prop-types
+    const source = nextProps.posts.source;
+    if (data !== undefined) {
+      history.push(`/news-source/${source}`);
+    }
   }
 
   selectNewsSource(row) {
@@ -59,6 +72,7 @@ DisplayTable.propTypes = {
   tableHeaders: PropTypes.arrayOf(PropTypes.string),
   tableRows: PropTypes.arrayOf(PropTypes.string),
   postsWithoutFilters: PropTypes.func,
+  posts: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default DisplayTable;

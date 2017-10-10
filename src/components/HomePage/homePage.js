@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import DisplayTable from './displayTable';
 import Header from '../common/header';
-import ProgressIndicator from './showProgress';
+import ProgressIndicator from '../common/showProgress';
 import * as sources from '../../actions/sourcesActions';
 import * as posts from '../../actions/newsPostsActions';
 
@@ -52,9 +52,10 @@ class HomePage extends React.Component {
         { progressBar }
         <DisplayTable
           postsWithFilters={source => (this.props.getNewsPostsWithFilters(source))}
-          postsWithoutFilters={() => (this.props.getNewsPostsWithoutFilters('abc-news-au'))}
+          postsWithoutFilters={source => (this.props.getNewsPostsWithoutFilters(source))}
           tableRows={this.state.newsSources}
           tableHeaders={this.state.tableHeaders}
+          posts={this.props.posts}
         />,
       </div>
     );
@@ -66,6 +67,7 @@ HomePage.propTypes = {
   getSources: PropTypes.func,
   getNewsPostsWithFilters: PropTypes.func,
   getNewsPostsWithoutFilters: PropTypes.func,
+  posts: PropTypes.arrayOf(PropTypes.string),
 };
 
 

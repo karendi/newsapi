@@ -4,6 +4,7 @@ import createHistory from 'history/createBrowserHistory';
 import { Provider } from 'react-redux';
 import { Router, Route, Switch } from 'react-router-dom';
 import configureStore from './store/configureStore';
+import DisplayCard from './components/HomePage/displayCard';
 import LoginPage from './components/LoginPage/loginPage';
 import HomePage from './components/HomePage/homePage';
 
@@ -24,6 +25,10 @@ ReactDOM.render(
             <Switch>
               <Route exact path="/" component={LoginPage} />
               <Route exact path="/homepage" component={HomePage} onEnter={requireAuth()} />
+              <Route
+                exact path="/news-source/:id"
+                component={DisplayCard} onEnter={requireAuth()}
+              />
             </Switch>
           </div>
         </Router>
