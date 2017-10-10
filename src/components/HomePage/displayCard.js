@@ -1,29 +1,45 @@
-/* eslint-disable react/prefer-stateless-function,jsx-a11y/no-static-element-interactions */
+/* eslint-disable react/prefer-stateless-function,jsx-a11y/no-static-element-interactions,
+react/jsx-no-comment-textnodes,react/prop-types */
 import React from 'react';
-import { Card, CardHeader, CardText } from 'material-ui/Card';
+import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 class DisplayCard extends React.Component {
   constructor() {
     super();
     this.state = {
-      fetchingNewsPosts: false,
-      sortByOption: [],
-      newsSource: '',
       newsPosts: [],
     };
+
+    this.renderNewsArticles = this.renderNewsArticles.bind(this);
+  }
+
+  renderNewsArticles() {
+    return (this.props.location);
   }
 
   render() {
-// eslint-disable-next-line react/prop-types
     return (
       <div>
-        <MuiThemeProvider>
-          <Card>
-            <CardHeader />
-            <CardText expandable />
-          </Card>
-        </MuiThemeProvider>
+        {this.props.location.state.articles.map((article, index) =>
+          <div key={index}>
+            <MuiThemeProvider>
+              <Card>
+                <CardHeader
+                  title={<h5>{article.title}</h5>}
+                  actAsExpander
+                  showExpandableButton
+                />
+                <CardText expandable>
+                  {article.description}
+                  <CardActions>
+                    <a href={article.url}>Go to Article</a>
+                  </CardActions>
+                </CardText>
+              </Card>
+            </MuiThemeProvider>
+          </div>,
+          )}
       </div>
 
     );
