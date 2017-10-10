@@ -3,6 +3,7 @@ react/jsx-no-comment-textnodes,react/prop-types */
 import React from 'react';
 import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import Header from '../common/header';
 
 class DisplayCard extends React.Component {
   constructor() {
@@ -21,6 +22,7 @@ class DisplayCard extends React.Component {
   render() {
     return (
       <div>
+        <Header />
         {this.props.location.state.articles.map((article, index) =>
           <div key={index}>
             <MuiThemeProvider>
