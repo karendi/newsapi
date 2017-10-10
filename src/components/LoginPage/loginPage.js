@@ -11,8 +11,8 @@ function responseGoogle() {
 
 // eslint-disable-next-line react/prefer-stateless-function
 class LoginPage extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       loginSuccess: false,
     };

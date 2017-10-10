@@ -1,5 +1,6 @@
 /* eslint-disable react/prefer-stateless-function */
 import React from 'react';
+import { createBrowserHistory } from 'history';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import PropTypes from 'prop-types';
 import {
@@ -10,6 +11,8 @@ import {
     TableRow,
     TableRowColumn,
 } from 'material-ui/Table';
+
+const history = createBrowserHistory({ forceRefresh: true });
 
 class DisplayTable extends React.Component {
   constructor() {
@@ -26,6 +29,11 @@ class DisplayTable extends React.Component {
     this.props.postsWithoutFilters(newsSource);
   }
   render() {
+    const newsSource = this.props.posts.source;
+    if (this.props.posts.articles !== undefined) {
+      history.push({ pathname: `/news-source/${newsSource}`,
+        state: { articles: this.props.posts.articles } });
+    }
     return (
       <MuiThemeProvider>
         <Table
@@ -59,6 +67,7 @@ DisplayTable.propTypes = {
   tableHeaders: PropTypes.arrayOf(PropTypes.string),
   tableRows: PropTypes.arrayOf(PropTypes.string),
   postsWithoutFilters: PropTypes.func,
+  posts: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default DisplayTable;
