@@ -1,4 +1,4 @@
-/* eslint-disable react/prefer-stateless-function,jsx-a11y/no-static-element-interactions,
+/* eslint-disable react/prefer-stateless-function,jsx-a11y/
 react/jsx-no-comment-textnodes,react/prop-types */
 import React from 'react';
 import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
@@ -6,19 +6,6 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Header from '../common/header';
 
 class DisplayCard extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      newsPosts: [],
-    };
-
-    this.renderNewsArticles = this.renderNewsArticles.bind(this);
-  }
-
-  renderNewsArticles() {
-    return (this.props.location);
-  }
-
   render() {
     return (
       <div>

@@ -41,14 +41,14 @@ class DisplayTable extends React.Component {
           selected
           onCellClick={row => (this.selectNewsSource(row))}
         >
-          <TableHeader>
+          <TableHeader displaySelectAll={false}>
             <TableRow>
               {this.props.tableHeaders.map((header, index) =>
                 <TableHeaderColumn key={index}>{header}</TableHeaderColumn>,
-                            )}
+              )}
             </TableRow>
           </TableHeader>
-          <TableBody displayRowCheckbox>
+          <TableBody displayRowCheckbox={false}>
             {this.props.tableRows.map((source, index) =>
               <TableRow key={index}>
                 <TableRowColumn>{source.name}</TableRowColumn>
