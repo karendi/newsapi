@@ -9,7 +9,9 @@ class GetNewsPost {
   static getAllNewsPostsWithoutFilter(source) {
     return fetch(`https://newsapi.org/v1/articles?source=${source}&apiKey=${apiKey}`)
         .then(response => response.json())
-        .catch(error => error);
+        .catch((error) => {
+          throw new Error(error);
+        });
   }
 }
 

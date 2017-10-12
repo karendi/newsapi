@@ -22,7 +22,7 @@ class HomePage extends React.Component {
     this.fetchNewsSources = this.fetchNewsSources.bind(this);
   }
   componentDidMount() {
-    if (this.props.sources.length === 0) {
+    if (this.props.sources.data.length === 0) {
       this.fetchNewsSources();
       this.props.getSources();
     }
@@ -30,7 +30,7 @@ class HomePage extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState({ fetching: false });
-    const retrievedSources = nextProps.sources.sources;
+    const retrievedSources = nextProps.sources.data.sources;
     this.setState({ newsSources: retrievedSources });
   }
 
@@ -55,7 +55,7 @@ class HomePage extends React.Component {
           postsWithoutFilters={source => (this.props.getNewsPostsWithoutFilters(source))}
           tableRows={this.state.newsSources}
           tableHeaders={this.state.tableHeaders}
-          posts={this.props.posts}
+          posts={this.props.posts.postsData}
         />,
       </div>
     );
@@ -63,11 +63,11 @@ class HomePage extends React.Component {
 }
 
 HomePage.propTypes = {
-  sources: PropTypes.arrayOf(PropTypes.string).isRequired,
+  sources: PropTypes.objectOf(PropTypes.any),
   getSources: PropTypes.func,
   getNewsPostsWithFilters: PropTypes.func,
   getNewsPostsWithoutFilters: PropTypes.func,
-  posts: PropTypes.arrayOf(PropTypes.string),
+  posts: PropTypes.objectOf(PropTypes.array),
 };
 
 

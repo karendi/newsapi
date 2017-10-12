@@ -9,8 +9,8 @@ export function getPostsWithoutFilterSuccess(posts) {
   return { type: types.GET_ALL_POSTS_WITHOUT_FILTER_SUCCESS, posts };
 }
 
-export function getPostsFailure(error) {
-  return { type: types.FAILURE_TO_GET_POSTS, error };
+export function getPostsFailure(postsError) {
+  return { type: types.FAILURE_TO_GET_POSTS, postsError };
 }
 
 export function getAllNewsPostsWithFilter(source, sortBy) {

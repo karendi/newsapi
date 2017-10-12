@@ -65,7 +65,7 @@ class DisplayTable extends React.Component {
 
 DisplayTable.propTypes = {
   tableHeaders: PropTypes.arrayOf(PropTypes.string),
-  tableRows: PropTypes.arrayOf(PropTypes.string),
+  tableRows: PropTypes.arrayOf(PropTypes.object),
   postsWithoutFilters: PropTypes.func,
   posts: PropTypes.arrayOf(PropTypes.string),
 };

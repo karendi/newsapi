@@ -9,8 +9,8 @@ export function getSourcesSuccess(newsSources) {
   return { type: types.GET_ALL_SOURCES_SUCCESS, newsSources };
 }
 
-export function getSourcesFailure(error) {
-  return { type: types.GET_ALL_SOURCES_FAILURE, error };
+export function getSourcesFailure(sourcesError) {
+  return { type: types.GET_ALL_SOURCES_FAILURE, sourcesError };
 }
 
 export function getAllSources() {

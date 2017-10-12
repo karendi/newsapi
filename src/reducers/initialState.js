@@ -1,6 +1,11 @@
 export default {
-  posts: [],
-  post: [],
-  sources: [],
+  posts: {
+    postsData: [],
+    postsError: [],
+  },
+  sources: {
+    data: [],
+    sourcesError: [],
+  },
   fetchingSources: [],
 };
