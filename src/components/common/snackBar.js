@@ -10,13 +10,6 @@ class ErrorSnackbar extends React.Component {
     this.state = {
       open: true,
     };
-    this.handleRequestClose = this.handleRequestClose.bind(this);
-  }
-
-  handleRequestClose() {
-    this.setState({
-      open: false,
-    });
   }
 
   render() {
@@ -27,7 +20,6 @@ class ErrorSnackbar extends React.Component {
             open={this.state.open}
             message={this.props.message}
             autoHideDuration={4000}
-            onRequestClose={this.handleRequestClose}
           />
         </MuiThemeProvider>
       </div>

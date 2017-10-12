@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import DisplayTable from './displayTable';
 import Header from '../common/header';
 import ProgressIndicator from '../common/showProgress';
+import ErrorSnackbar from '../common/snackBar';
 import * as sources from '../../actions/sourcesActions';
 import * as posts from '../../actions/newsPostsActions';
 
@@ -17,9 +18,11 @@ class HomePage extends React.Component {
       tableHeaders: [
         'Source', 'Description',
       ],
+      showErrorSnackbar: false,
     };
 
     this.fetchNewsSources = this.fetchNewsSources.bind(this);
+    this.displayErrorSnackbar = this.displayErrorSnackbar.bind(this);
   }
   componentDidMount() {
     if (this.props.sources.data.length === 0) {
@@ -32,19 +35,35 @@ class HomePage extends React.Component {
     this.setState({ fetching: false });
     const retrievedSources = nextProps.sources.data.sources;
     this.setState({ newsSources: retrievedSources });
+    if (nextProps.posts.postsError.length !== 0) {
+      this.displayErrorSnackbar();
+    }
   }
 
   fetchNewsSources() {
     this.setState({ fetching: true });
   }
 
+  displayErrorSnackbar() {
+    if (this.props.posts.postsError.length === 0) {
+      this.setState({ showErrorSnackbar: true });
+    }
+  }
+
   render() {
     const showFetchingProgress = this.state.fetching;
+    const showSnackbar = this.state.showErrorSnackbar;
     let progressBar;
+    let snackBar;
     if (showFetchingProgress) {
       progressBar = <ProgressIndicator />;
     } else {
       progressBar = null;
+    }
+    if (showSnackbar) {
+      snackBar = <ErrorSnackbar message="We could not retrieve the articles" />;
+    } else {
+      snackBar = null;
     }
     return (
       <div>
@@ -56,7 +75,8 @@ class HomePage extends React.Component {
           tableRows={this.state.newsSources}
           tableHeaders={this.state.tableHeaders}
           posts={this.props.posts.postsData}
-        />,
+        />
+        { snackBar }
       </div>
     );
   }
