@@ -9,6 +9,8 @@ class FilterComponent extends React.Component {
     return (
       <MuiThemeProvider>
         <AutoComplete
+          onUpdateInput={
+              (searchText) => { this.props.filterFunction(searchText); }}
           floatingLabelText="Search for a news source"
           filter={AutoComplete.caseInsensitiveFilter}
           dataSource={this.props.dataSource}
@@ -22,6 +24,7 @@ class FilterComponent extends React.Component {
 
 FilterComponent.propTypes = {
   dataSource: PropTypes.arrayOf(PropTypes.string),
+  filterFunction: PropTypes.func,
 };
 
 export default FilterComponent;

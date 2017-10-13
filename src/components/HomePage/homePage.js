@@ -17,6 +17,7 @@ class HomePage extends React.Component {
       newsSources: [],
       newsSourcesNames: [],
       fetching: false,
+      filteredResults: [],
       tableHeaders: [
         'Source', 'Description',
       ],
@@ -26,6 +27,7 @@ class HomePage extends React.Component {
     this.fetchNewsSources = this.fetchNewsSources.bind(this);
     this.displayErrorSnackbar = this.displayErrorSnackbar.bind(this);
     this.getNewsSourcesNames = this.getNewsSourcesNames.bind(this);
+    this.filterResults = this.filterResults.bind(this);
   }
   componentDidMount() {
     if (this.props.sources.data.length === 0) {
@@ -44,6 +46,7 @@ class HomePage extends React.Component {
     this.getNewsSourcesNames(nextProps);
   }
 
+// eslint-disable-next-line class-methods-use-this
   getNewsSourcesNames(nextProps) {
     this.setState({ newsSourcesNames: nextProps.sources.data.sources.map(source => source.name) });
   }
@@ -53,6 +56,11 @@ class HomePage extends React.Component {
   }
   displayErrorSnackbar() {
     this.setState({ showErrorSnackbar: true });
+  }
+
+  filterResults(searchText) {
+    const filteredSources = this.state.newsSourcesNames.filter(data => data.includes(searchText));
+    this.setState({ filteredResults: filteredSources });
   }
 
   render() {
@@ -73,7 +81,10 @@ class HomePage extends React.Component {
     return (
       <div>
         <Header />
-        <FilterComponent dataSource={this.state.newsSourcesNames} />
+        <FilterComponent
+          dataSource={this.state.newsSourcesNames}
+          filterFunction={searchText => this.filterResults(searchText)}
+        />
         { progressBar }
         <DisplayTable
           postsWithFilters={source => (this.props.getNewsPostsWithFilters(source))}
