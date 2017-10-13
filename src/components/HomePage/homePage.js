@@ -45,9 +45,7 @@ class HomePage extends React.Component {
   }
 
   displayErrorSnackbar() {
-    if (this.props.posts.postsError.length === 0) {
-      this.setState({ showErrorSnackbar: true });
-    }
+    this.setState({ showErrorSnackbar: true });
   }
 
   render() {
@@ -60,8 +58,8 @@ class HomePage extends React.Component {
     } else {
       progressBar = null;
     }
-    if (showSnackbar) {
-      snackBar = <ErrorSnackbar message="We could not retrieve the articles" />;
+    if (showSnackbar && this.props.posts.postsError.length !== 0) {
+      snackBar = <ErrorSnackbar message="We could not retrieve the posts" />;
     } else {
       snackBar = null;
     }

@@ -18,7 +18,8 @@ class DisplayTable extends React.Component {
   constructor() {
     super();
     this.state = {
-      fetchingPosts: false };
+      fetchingPosts: false,
+    };
 
     this.selectNewsSource = this.selectNewsSource.bind(this);
   }
@@ -28,6 +29,7 @@ class DisplayTable extends React.Component {
     const newsSource = this.props.tableRows[row].id;
     this.props.postsWithoutFilters(newsSource);
   }
+
   render() {
     const newsSource = this.props.posts.source;
     if (this.props.posts.articles !== undefined) {
@@ -59,6 +61,7 @@ class DisplayTable extends React.Component {
           </TableBody>
         </Table>
       </MuiThemeProvider>
+
     );
   }
 }
