@@ -6,6 +6,7 @@ import DisplayTable from './displayTable';
 import Header from '../common/header';
 import ProgressIndicator from '../common/showProgress';
 import ErrorSnackbar from '../common/snackBar';
+import FilterComponent from '../common/filterComponent';
 import * as sources from '../../actions/sourcesActions';
 import * as posts from '../../actions/newsPostsActions';
 
@@ -14,6 +15,7 @@ class HomePage extends React.Component {
     super();
     this.state = {
       newsSources: [],
+      newsSourcesNames: [],
       fetching: false,
       tableHeaders: [
         'Source', 'Description',
@@ -23,6 +25,7 @@ class HomePage extends React.Component {
 
     this.fetchNewsSources = this.fetchNewsSources.bind(this);
     this.displayErrorSnackbar = this.displayErrorSnackbar.bind(this);
+    this.getNewsSourcesNames = this.getNewsSourcesNames.bind(this);
   }
   componentDidMount() {
     if (this.props.sources.data.length === 0) {
@@ -38,12 +41,16 @@ class HomePage extends React.Component {
     if (nextProps.posts.postsError.length !== 0) {
       this.displayErrorSnackbar();
     }
+    this.getNewsSourcesNames(nextProps);
+  }
+
+  getNewsSourcesNames(nextProps) {
+    this.setState({ newsSourcesNames: nextProps.sources.data.sources.map(source => source.name) });
   }
 
   fetchNewsSources() {
     this.setState({ fetching: true });
   }
-
   displayErrorSnackbar() {
     this.setState({ showErrorSnackbar: true });
   }
@@ -66,6 +73,7 @@ class HomePage extends React.Component {
     return (
       <div>
         <Header />
+        <FilterComponent dataSource={this.state.newsSourcesNames} />
         { progressBar }
         <DisplayTable
           postsWithFilters={source => (this.props.getNewsPostsWithFilters(source))}
