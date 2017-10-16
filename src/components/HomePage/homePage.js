@@ -1,5 +1,6 @@
 /* eslint-disable react/prefer-stateless-function */
 import React from 'react';
+import { createBrowserHistory } from 'history';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import DisplayTable from './displayTable';
@@ -9,6 +10,8 @@ import ErrorSnackbar from '../common/snackBar';
 import FilterComponent from '../common/filterComponent';
 import * as sources from '../../actions/sourcesActions';
 import * as posts from '../../actions/newsPostsActions';
+
+const history = createBrowserHistory({ forceRefresh: true });
 
 class HomePage extends React.Component {
   constructor() {
@@ -46,7 +49,6 @@ class HomePage extends React.Component {
     this.getNewsSourcesNames(nextProps);
   }
 
-// eslint-disable-next-line class-methods-use-this
   getNewsSourcesNames(nextProps) {
     this.setState({ newsSourcesNames: nextProps.sources.data.sources.map(source => source.name) });
   }
@@ -54,13 +56,20 @@ class HomePage extends React.Component {
   fetchNewsSources() {
     this.setState({ fetching: true });
   }
+
   displayErrorSnackbar() {
     this.setState({ showErrorSnackbar: true });
   }
 
   filterResults(searchText) {
-    const filteredSources = this.state.newsSourcesNames.filter(data => data.includes(searchText));
-    this.setState({ filteredResults: filteredSources });
+// eslint-disable-next-line array-callback-return
+    this.state.newsSources.filter((data) => {
+      if (data.name.includes(searchText)) {
+        const sourceArticles = this.props.getNewsPostsWithoutFilters(data.id);
+        history.push({ pathname: `/news-source/${data.id}`,
+          state: { articles: sourceArticles.articles } });
+      }
+    });
   }
 
   render() {

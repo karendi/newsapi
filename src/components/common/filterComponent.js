@@ -9,10 +9,11 @@ class FilterComponent extends React.Component {
     return (
       <MuiThemeProvider>
         <AutoComplete
-          onUpdateInput={
+          onNewRequest={
               (searchText) => { this.props.filterFunction(searchText); }}
           floatingLabelText="Search for a news source"
           filter={AutoComplete.caseInsensitiveFilter}
+          fullWidth
           dataSource={this.props.dataSource}
           maxSearchResults={5}
         />

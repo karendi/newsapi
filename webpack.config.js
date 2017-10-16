@@ -59,9 +59,6 @@ module.exports = {
           presets: [
             'react', 'es2015',
           ],
-          loaders: [
-            'transform-object-rest-spread',
-          ],
         },
       },
       {
